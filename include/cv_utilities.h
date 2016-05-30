@@ -46,6 +46,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <windows.h>
 
 /******************************** typedefs **********************************/
 
@@ -273,13 +274,13 @@ public:
 
 #ifdef WIN32
 	cv_timer() : m_time(0)
-	{LARGE_INTEGER l_tmp; QueryPerformanceFrequency(&l_tmp); m_freq=l_tmp.QuadPart;}
+	{LARGE_INTEGER l_tmp; ::QueryPerformanceFrequency(&l_tmp); m_freq=l_tmp.QuadPart;}
 
 	void start( bool a_reset=true)
-	{LARGE_INTEGER l_tmp; QueryPerformanceCounter(&l_tmp); if (a_reset) m_time=0; m_start=l_tmp.QuadPart;}
+	{LARGE_INTEGER l_tmp; ::QueryPerformanceCounter(&l_tmp); if (a_reset) m_time=0; m_start=l_tmp.QuadPart;}
 
 	void stop(void)
-	{LARGE_INTEGER l_tmp; QueryPerformanceCounter(&l_tmp); m_stop=l_tmp.QuadPart; m_time+=m_stop-m_start;}
+	{LARGE_INTEGER l_tmp; ::QueryPerformanceCounter(&l_tmp); m_stop=l_tmp.QuadPart; m_time+=m_stop-m_start;}
 
 #else
 	cv_timer() : m_time(0)

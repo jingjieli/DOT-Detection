@@ -371,7 +371,7 @@ void cv::cv_lin_combination(	float * ap_src1, float a_scalar1,
 								float * ap_src2, float a_scalar2,
 								float * ap_dest, int a_length )
 {
-#ifdef IPP_INCLUDED
+#ifdef IPPM_INCLUDED
 	ippmLComb_vv_32f(ap_src1, sizeof(Ipp32f), a_scalar1,
 				     ap_src2, sizeof(Ipp32f), a_scalar2, 
 					 ap_dest, sizeof(Ipp32f), a_length );
@@ -585,7 +585,7 @@ void cv::cv_normalize_std( float * ap_src, int a_length )
 
 void cv::cv_mat_mul( CvMat * ap_src1, CvMat * ap_src2, CvMat * ap_src3 )
 {
-#ifdef IPP_INCLUDED
+#ifdef IPPM_INCLUDED
 	ippmMul_mm_32f( (float*)ap_src1->data.ptr, sizeof(float)*ap_src1->cols, sizeof(float), ap_src1->cols, ap_src1->rows,
 					(float*)ap_src2->data.ptr, sizeof(float)*ap_src2->cols, sizeof(float), ap_src2->cols, ap_src2->rows,
 					(float*)ap_src3->data.ptr, sizeof(float)*ap_src3->cols, sizeof(float) );
@@ -598,7 +598,7 @@ void cv::cv_mat_mul( CvMat * ap_src1, CvMat * ap_src2, CvMat * ap_src3 )
 
 void cv::cv_mat_mul_transposed( CvMat * ap_src1, CvMat * ap_src2, CvMat * ap_src3 )
 {
-#ifdef IPP_INCLUDED
+#ifdef IPPM_INCLUDED
 	ippmMul_mt_32f(	(float*)ap_src1->data.ptr, sizeof(float)*ap_src1->cols, sizeof(float), ap_src1->cols, ap_src1->rows,
 					(float*)ap_src2->data.ptr, sizeof(float)*ap_src2->cols, sizeof(float), ap_src2->cols, ap_src2->rows,
 					(float*)ap_src3->data.ptr, sizeof(float)*ap_src3->cols, sizeof(float) );

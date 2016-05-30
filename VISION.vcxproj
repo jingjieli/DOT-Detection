@@ -5,9 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -22,7 +30,18 @@
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -33,7 +52,13 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -44,10 +69,17 @@
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -64,17 +96,54 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>VID.lib;dxguid.lib;ole32.lib;strmiids.lib;uuid.lib;ippm.lib;ippcv.lib;ippi.lib;ipps.lib;ippCore.lib;ESMlibry.lib;cv200.lib;cxcore200.lib;highgui200.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>.\resources\VID;$(IPP)\lib;$(IPP)\stublib;.\resources\FLEA;.\resources\DSVL;.\resources\ESM;.\resources\IDS;$(OpenCV_DIR)\lib\opencv;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.3.207\windows\ipp\lib\intel64_win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>VID.lib;dxguid.lib;ole32.lib;strmiids.lib;uuid.lib;ippcv.lib;ippi.lib;ipps.lib;ippCore.lib;ESMlibry.lib;opencv_calib3d2412d.lib;opencv_contrib2412d.lib;opencv_core2412d.lib;opencv_features2d2412d.lib;opencv_flann2412d.lib;opencv_gpu2412d.lib;opencv_highgui2412d.lib;opencv_imgproc2412d.lib;opencv_legacy2412d.lib;opencv_ml2412d.lib;opencv_nonfree2412d.lib;opencv_objdetect2412d.lib;opencv_ocl2412d.lib;opencv_photo2412d.lib;opencv_stitching2412d.lib;opencv_superres2412d.lib;opencv_ts2412d.lib;opencv_video2412d.lib;opencv_videostab2412d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>C:\Users\gingerli\Documents\DOT_vs_1.0\resources\VID;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.3.207\windows\ipp\lib\ia32_win;C:\Users\gingerli\Documents\opencv-2.4.12-prebuilt\opencv\build\x86\vc12\lib;C:\Users\gingerli\Documents\ESMkitWin_0_4\ESMkitWin\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\resources\ESM\ESMLibry.dll" "$(OutDir)"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\resources\VID;$(IPP)\include;.\include;.\resources\ESM;$(OpenCV_DIR)\include;C:\Users\gingerli\Documents\ESMkitWin_0_4\ESMkitWin\inc;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.3.207\windows\ipp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <StructMemberAlignment>16Bytes</StructMemberAlignment>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>VID.lib;dxguid.lib;ole32.lib;strmiids.lib;uuid.lib;ippcv.lib;ippi.lib;ipps.lib;ippCore.lib;ESMlibry.lib;opencv_calib3d2412d.lib;opencv_contrib2412d.lib;opencv_core2412d.lib;opencv_features2d2412d.lib;opencv_flann2412d.lib;opencv_gpu2412d.lib;opencv_highgui2412d.lib;opencv_imgproc2412d.lib;opencv_legacy2412d.lib;opencv_ml2412d.lib;opencv_nonfree2412d.lib;opencv_objdetect2412d.lib;opencv_ocl2412d.lib;opencv_photo2412d.lib;opencv_stitching2412d.lib;opencv_superres2412d.lib;opencv_ts2412d.lib;opencv_video2412d.lib;opencv_videostab2412d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <AdditionalLibraryDirectories>C:\Users\gingerli\Documents\DOT_vs_1.0\resources\VID;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.3.207\windows\ipp\lib\intel64_win;C:\Users\gingerli\Documents\opencv-2.4.12-prebuilt\opencv\build\x64\vc12\lib;C:\Users\gingerli\Documents\ESMkitWin_0_4\ESMkitWin\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -84,7 +153,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <AdditionalIncludeDirectories>.\resources\VID;$(IPP)\include;.\include;.\resources\ESM;$(OPENCV)\include\opencv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\resources\VID;$(IPP)\include;.\include;.\resources\ESM;$(OpenCV_DIR)\include;C:\Users\gingerli\Documents\ESMkitWin_0_4\ESMkitWin\inc;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.3.207\windows\ipp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <StructMemberAlignment>16Bytes</StructMemberAlignment>
@@ -94,8 +163,8 @@
       <DebugInformationFormat />
     </ClCompile>
     <Link>
-      <AdditionalDependencies>VID.lib;dxguid.lib;ole32.lib;strmiids.lib;uuid.lib;ippm.lib;ippcore.lib;ippcv.lib;ippi.lib;ipps.lib;ESMlibry.lib;cv200.lib;cxcore200.lib;highgui200.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>.\resources\VID;$(IPP)\lib;$(IPP)\stublib;.\resources\IDS;.\resources\FLEA;.\resources\DSVL;.\resources\ESM;$(OPENCV)\lib\opencv;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>VID.lib;dxguid.lib;ole32.lib;strmiids.lib;uuid.lib;ippcore.lib;ippcv.lib;ippi.lib;ipps.lib;ESMlibry.lib;opencv_calib3d2412.lib;opencv_contrib2412.lib;opencv_core2412.lib;opencv_features2d2412.lib;opencv_flann2412.lib;opencv_gpu2412.lib;opencv_highgui2412.lib;opencv_imgproc2412.lib;opencv_legacy2412.lib;opencv_ml2412.lib;opencv_nonfree2412.lib;opencv_objdetect2412.lib;opencv_ocl2412.lib;opencv_photo2412.lib;opencv_stitching2412.lib;opencv_superres2412.lib;opencv_ts2412.lib;opencv_video2412.lib;opencv_videostab2412.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\resources\VID;$(IPP)\lib;$(IPP)\stublib;.\resources\IDS;.\resources\FLEA;.\resources\DSVL;.\resources\ESM;$(OpenCV_DIR)\x86\vc12\lib;C:\Users\gingerli\Documents\ESMkitWin_0_4\ESMkitWin\lib;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.3.207\windows\ipp\lib\ia32_win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -106,7 +175,45 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\resources\ESM\ESMLibry.dll" "$(OutDir)"</Command>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <AdditionalIncludeDirectories>.\resources\VID;$(IPP)\include;.\include;.\resources\ESM;$(OpenCV_DIR)\include;C:\Users\gingerli\Documents\ESMkitWin_0_4\ESMkitWin\inc;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.3.207\windows\ipp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <StructMemberAlignment>16Bytes</StructMemberAlignment>
+      <OpenMPSupport>true</OpenMPSupport>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>VID.lib;dxguid.lib;ole32.lib;strmiids.lib;uuid.lib;ippcore.lib;ippcv.lib;ippi.lib;ipps.lib;ESMlibry.lib;opencv_calib3d2412.lib;opencv_contrib2412.lib;opencv_core2412.lib;opencv_features2d2412.lib;opencv_flann2412.lib;opencv_gpu2412.lib;opencv_highgui2412.lib;opencv_imgproc2412.lib;opencv_legacy2412.lib;opencv_ml2412.lib;opencv_nonfree2412.lib;opencv_objdetect2412.lib;opencv_ocl2412.lib;opencv_photo2412.lib;opencv_stitching2412.lib;opencv_superres2412.lib;opencv_ts2412.lib;opencv_video2412.lib;opencv_videostab2412.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\resources\VID;$(IPP)\lib;$(IPP)\stublib;.\resources\IDS;.\resources\FLEA;.\resources\DSVL;.\resources\ESM;$(OpenCV_DIR)\x64\vc12\lib;C:\Users\gingerli\Documents\ESMkitWin_0_4\ESMkitWin\lib;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.3.207\windows\ipp\lib\intel64_win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
