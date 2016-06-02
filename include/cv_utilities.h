@@ -255,7 +255,7 @@ class cv_mouse
 {
 public:
 	static void cv_on_mouse( int a_event, int a_x, int a_y, int a_flags, void * a_params ){ m_event = a_event; m_x = a_x; m_y = a_y; }
-	static void start( std::string a_img_name ){ cvSetMouseCallback( a_img_name.c_str(), cv_mouse::cv_on_mouse, 0 ); }
+	static void start( std::string a_img_name ){ cvSetMouseCallback( a_img_name.c_str(), cv_mouse::cv_on_mouse, 0 ); } // set mouse handler for the specified window
 	static int get_event( void ){ int l_event=m_event; m_event=-1; return l_event;}
 	static int get_x( void ){ int l_x=m_x; m_x=-1; return l_x;}
 	static int get_y( void ){ int l_y=m_y; m_y=-1; return l_y;}
