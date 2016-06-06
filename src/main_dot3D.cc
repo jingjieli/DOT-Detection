@@ -48,9 +48,9 @@ int main(int argc, char * argv[])
 	// define thresholds 
 	int l_learn_thres_up = l_G*0.95;
 	//int l_learn_thres_down = l_G*0.9;
-	int l_learn_thres_down = l_G*0.85;
+	int l_learn_thres_down = l_G*0.90;
 	//int l_detect_thres = l_G*0.6;
-	int l_detect_thres = l_G*0.8;
+	int l_detect_thres = l_G*0.85;
 
 	// template size is pre-defined
 	cv::cv_dot_template<l_M, l_N, l_T, l_G> l_template(10);
@@ -94,6 +94,14 @@ int main(int argc, char * argv[])
 	while (true)
 	{
 		std::cout << "-------- Processing Loop --------" << std::endl;
+
+		if (l_learn_onl) {
+			std::cout << "Online Learning: ENABLE" << std::endl;
+		}
+		else {
+			std::cout << "Online Learning: DISABLE" << std::endl;
+		}
+
 		IplImage * lp_color = NULL;
 		IplImage * lp_gray = NULL;
 		IplImage * lp_mean = NULL;
@@ -190,6 +198,7 @@ int main(int argc, char * argv[])
 
 		l_timer0.start();
 		l_timer1.start();
+		std::cout << "Call compute_gradients ..." << std::endl;
 		std::pair<Ipp8u*, Ipp32f*> l_img = l_template.compute_gradients(lp_mean, 1);
 		//std::cout << "l_img.first: " << (int)l_img.first << " " << "l_img.second: " << (int)l_img.second << std::endl;
 		l_timer1.stop();
@@ -200,13 +209,13 @@ int main(int argc, char * argv[])
 		// add template with max matching score to the list
 		if (l_learn_onl == true)
 		{
-			//std::cout << "online_process ... ";
+			std::cout << "online_process ... m_class = " << l_template.get_classes() << std::endl;
 			lp_list = l_template.online_process(l_img.first, l_detect_thres, l_IN / l_T, l_IM / l_T);
 			//std::cout << "online_process ... lp_list (candidates) size: " << (int)lp_list->size() << std::endl;
 		}
 		else
 		{
-			//std::cout << "process ... ";
+			std::cout << "offline_process ... m_class = " << l_template.get_classes() << std::endl;
 			lp_list = l_template.process(l_img.first, l_detect_thres, l_IN / l_T, l_IM / l_T);
 			//std::cout << "process ... lp_list (candidates) size: " << (int)lp_list->size() << std::endl;
 		}
@@ -217,10 +226,10 @@ int main(int argc, char * argv[])
 			std::cout << "class " << i << " has " << lp_list[i].size() << " candidates." << std::endl;
 		}
 
-
 		// there're caniddate in the list
-		if (lp_list != NULL)
+		if (lp_list != NULL && l_template.get_classes() != 0)
 		{
+			std::cout << "candidate list is not empty ..." << std::endl;
 			int l_size = 0; // to store the total number of candidate(s) from all class(es)
 
 			float * lp_max_val = new float[l_template.get_classes()];
@@ -254,6 +263,7 @@ int main(int argc, char * argv[])
 
 				//std::cout << "l_size: " << l_size << "; lp_list[l_j] size: " << lp_list[l_j].size() << std::endl;
 				l_size += lp_list[l_j].size(); // accumulate candidates number
+				std::cout << lp_list[l_j].size() << " candidates added." << std::endl;
 				//std::cout << "l_size: " << l_size << std::endl;
 
 				lp_list[l_j].sort(cv::cv_candidate_ptr_cmp()); // sort candidates of a class into descending order according to their m_val
@@ -283,7 +293,7 @@ int main(int argc, char * argv[])
 								l_template.render(lp_color, l_template.get_cnt()[(*l_i)->m_ind - 1], (*l_i)->m_row, (*l_i)->m_col); // display contour 
 
 								// print debug info to the console
-								std::cout << "CLASS " << l_j << " CANDIDATE " << (*l_i)->m_ind << " C_CLASS: " << (*l_i)->m_cla << " SCORE: " << (*l_i)->m_val <<
+								std::cout << "CLASS " << l_j << " CANDIDATE (index) " << (*l_i)->m_ind << " C_CLASS: " << (*l_i)->m_cla << " SCORE: " << (*l_i)->m_val <<
 									" CLUSTER: " << (*l_i)->m_clu << " ROWS: " << (*l_i)->m_row << " COLS: " << (*l_i)->m_col << std::endl;
 							}
 							lp_max_val[l_j] = (*l_i)->m_val; // store the matching score for current class
@@ -381,7 +391,7 @@ int main(int argc, char * argv[])
 
 			for (int l_i = 0; l_i < l_template.get_classes(); ++l_i)
 			{
-				std::cerr << (int)(lp_max_val[l_i]) << "; ";
+				std::cerr << "class " << l_i << " max value: " << (int)(lp_max_val[l_i]) << std::endl;
 			}
 			//std::cerr << "templates num: " << l_template.get_templates() << " candidates num: " << l_size << " classes num: " << l_template.get_classes() << " " << char(13) << std::flush;
 			std::cerr << "templates: " << l_template.get_templates() << " candidates: " << l_size << " classes: " << l_template.get_classes() << " " << char(13) << std::endl;
@@ -395,8 +405,7 @@ int main(int argc, char * argv[])
 		}
 		else
 		{
-			//std::cerr << "NULL; ";
-			//std::cerr << "l_cur_vec size: " << (int)l_cur_vec.size() << "; ";
+			std::cerr << "candidate list is empty ..." << std::endl;
 			std::cerr << "tim: " << (int)(l_timer0.get_time() * 1000) << "ms; fps: " << (int)l_timer0.get_fps() << "; ";
 			std::cerr << "pre: " << (int)(l_timer1.get_time() * 1000) << "ms; pro: " << (int)(l_timer2.get_time() * 1000) << "ms; ";
 			//std::cerr << "templates num: " << l_template.get_templates() << "    " << char(13) << std::flush;
@@ -466,6 +475,9 @@ int main(int argc, char * argv[])
 		{
 			std::string file_name = "..\\results\\dot_model";
 			l_template.load(file_name);
+			//l_template.clear_clu_list();
+			//l_template.cluster_heu(4);
+			l_template.load_model_helper();
 		}
 
 		if (l_key == 101) // when button "e" is pressed

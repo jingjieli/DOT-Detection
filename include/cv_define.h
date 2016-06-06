@@ -29,5 +29,6 @@
 
 //#define MAIN_DOT_2D
 #define MAIN_DOT_3D
+#define NO_CLUSTERING
 
 /****************************** END OF FILE  ********************************/

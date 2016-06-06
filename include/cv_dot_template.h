@@ -171,6 +171,8 @@ namespace cv
 
 		void cluster_heu(int a_max);
 
+		void load_model_helper(void);
+
 		void clear_clu_list(void);
 		void clear_bit_list(void);
 		void clear_rec_list(void);
@@ -575,6 +577,12 @@ namespace cv
 	}
 
 	template <int M, int N, int S, int G>
+	void cv_dot_template<M, N, S, G>::load_model_helper(void)
+	{
+		this->transfer_bit_list(mp_mem);
+	}
+
+	template <int M, int N, int S, int G>
 	void cv_dot_template<M, N, S, G>::calibrate(IplImage * ap_image)
 	{
 		float l_max;
@@ -682,6 +690,7 @@ namespace cv
 
 		while (lp_clu != NULL)
 		{
+			//std::cout << "lp_clu is not null." << std::endl;
 			int l_clu_val = energy_bitcount<(M*N - 1) / 16 + 1>(lp_clu->mp_sta, ap_pix, l_zero);
 
 			if (l_clu_val >= a_thres && l_clu_val > l_max)
@@ -690,7 +699,9 @@ namespace cv
 
 				while (lp_cur != NULL)
 				{
+					//std::cout << "lp_cur is not null." << std::endl;
 					int l_cur_val = energy_bitcount<(M*N - 1) / 16 + 1>(lp_cur->mp_sta, ap_pix, l_zero);
+					//std::cout << "energy_bitcount" << std::endl;
 
 					if (l_cur_val > l_max && l_cur_val >= a_thres)
 					{
@@ -720,10 +731,16 @@ namespace cv
 
 		while( lp_cur != NULL )
 		{
+			//std::cout << "lp_cur is not null" << std::endl;
+			
 			Ipp16u l_cur_val = energy_bitcount<(M*N-1)/16+1>(lp_cur->mp_sta,ap_pix,l_zero);
+
+			//std::cout << "energy_bitcount" << std::endl;
 
 			if( l_cur_val >= a_thres && l_cur_val > l_max )
 			{
+				//std::cout << "new value found ..." << std::endl;
+				
 				bool l_flag = false;
 
 				l_max  = l_cur_val;
@@ -734,6 +751,7 @@ namespace cv
 				lp_candidate->m_val = l_cur_val;
 			}
 			lp_cur = lp_cur->mp_nxt;
+			//std::cout << "move to next ... " << std::endl;
 		}
 #endif
 		return lp_candidate;
@@ -830,8 +848,8 @@ namespace cv
 		int a_width,
 		int a_height)
 	{
-		std::list<cv_candidate*> * lp_list = new std::list<cv_candidate*>[m_classes];
-
+		std::list<cv_candidate*> * lp_list = new std::list<cv_candidate*>[m_classes]; // a list of smae size of number of classes
+		
 		Ipp8u * lp_pix_row = ippsMalloc_8u(m_elem);
 		Ipp8u * lp_pix_col = ippsMalloc_8u(m_elem);
 
@@ -846,13 +864,13 @@ namespace cv
 			for (int l_c = 0; l_c < a_width - N; ++l_c)
 			{
 				cv_candidate * lp_candidate = this->comp(lp_pix_col, a_thres);
-
-				if (lp_candidate->m_ind != 0)
+				
+				if (lp_candidate->m_ind != 0) // not the initial value
 				{
 					lp_candidate->m_col = l_c*S;
 					lp_candidate->m_row = l_r*S;
-
 					lp_list[lp_candidate->m_cla].push_back(lp_candidate);
+					std::cout << "Candidate " << lp_candidate->m_ind << " found and added." << std::endl;
 				}
 				else
 				{
@@ -875,7 +893,7 @@ namespace cv
 		int a_width,
 		int a_height)
 	{
-		std::list<cv_candidate*> * lp_list = new std::list<cv_candidate*>[m_classes];
+		std::list<cv_candidate*> * lp_list = new std::list<cv_candidate*>[m_classes]; // a list of same size as number of classes 
 
 		Ipp8u * lp_pix_row = ippsMalloc_8u(m_elem);
 		Ipp8u * lp_pix_col = ippsMalloc_8u(m_elem);
@@ -898,12 +916,10 @@ namespace cv
 					lp_candidate->m_row = l_r*S;
 
 					lp_list[lp_candidate->m_cla].push_back(lp_candidate); // add candidate to the class it belongs to
-					/*std::cout << "candidate index: " << lp_candidate->m_ind << " cluster: " << lp_candidate->m_clu << " class: " << lp_candidate->m_cla <<
-						" value: " << lp_candidate->m_val << " cols: " << lp_candidate->m_col << " rows: " << lp_candidate->m_col << std::endl;*/
+					std::cout << "Candidate " << lp_candidate->m_ind << " found and added." << std::endl;
 				}
 				else
 				{
-					//std::cout << "candidate index is 0, delete (free) candidate." << std::endl;
 					delete lp_candidate;
 				}
 				this->shift_right(ap_img, lp_pix_col, a_width, l_r, l_c);
