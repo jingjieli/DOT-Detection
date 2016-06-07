@@ -48,12 +48,15 @@ int main(int argc, char * argv[])
 	// define thresholds 
 	int l_learn_thres_up = l_G*0.95;
 	//int l_learn_thres_down = l_G*0.9;
-	int l_learn_thres_down = l_G*0.90;
+	int l_learn_thres_down = l_G*0.85;
 	//int l_detect_thres = l_G*0.6;
-	int l_detect_thres = l_G*0.85;
+	int l_detect_thres = l_G*0.81;
 
 	// template size is pre-defined
 	cv::cv_dot_template<l_M, l_N, l_T, l_G> l_template(10);
+
+	std::string load_model_path = argv[1];
+	std::string save_model_path = argv[2];
 
 	cv::cv_create_window("hallo1");
 	cv::cv_create_window("hallo2");
@@ -293,15 +296,16 @@ int main(int argc, char * argv[])
 								l_template.render(lp_color, l_template.get_cnt()[(*l_i)->m_ind - 1], (*l_i)->m_row, (*l_i)->m_col); // display contour 
 
 								// print debug info to the console
-								std::cout << "CLASS " << l_j << " CANDIDATE (index) " << (*l_i)->m_ind << " C_CLASS: " << (*l_i)->m_cla << " SCORE: " << (*l_i)->m_val <<
-									" CLUSTER: " << (*l_i)->m_clu << " ROWS: " << (*l_i)->m_row << " COLS: " << (*l_i)->m_col << std::endl;
+								std::cout << "CLASS " << l_j << " CANDIDATE No. " << (*l_i)->m_ind << " CAN_CLASS: " << (*l_i)->m_cla << " SCORE: " << (*l_i)->m_val <<
+									" CLUSTER No. " << (*l_i)->m_clu << " ROWS: " << (*l_i)->m_row << " COLS: " << (*l_i)->m_col << std::endl;
 							}
 							lp_max_val[l_j] = (*l_i)->m_val; // store the matching score for current class
 
 							if (l_show_hyp == true)
 							{
-								cv::cv_draw_poly(lp_color, lp_rec, 3, 255, 255, 255);
-								cv::cv_draw_poly(lp_color, lp_rec, 1, 0, 0, 0);
+								// black overlay on white rectangle
+								cv::cv_draw_poly(lp_color, lp_rec, 3, 255, 255, 255); // white rectangle
+								cv::cv_draw_poly(lp_color, lp_rec, 1, 0, 0, 0); // black rectangle
 							}
 							if (l_learn_onl == true) // learn a new template online
 							{
@@ -442,7 +446,7 @@ int main(int argc, char * argv[])
 			std::cerr << "new threshold: " << l_thres << "  " << std::endl;
 		}
 
-		if (l_key == 106) // when button "j" is pressed 
+		if (l_key == 106) // when button "j" is pressed: jpeg
 		{
 			static int l_n = 0;
 
@@ -455,7 +459,7 @@ int main(int argc, char * argv[])
 			++l_n;
 		}
 
-		if (l_key == 114) // when button "r" is pressed
+		if (l_key == 114) // when button "r" is pressed: rectangle
 		{
 			l_show_rec = !l_show_rec;
 		}
@@ -465,19 +469,33 @@ int main(int argc, char * argv[])
 			l_show_hyp = !l_show_hyp;
 		}
 
-		if (l_key == 115) // when button "s" is pressed
+		if (l_key == 115) // when button "s" is pressed: save
 		{
-			std::string file_name = "..\\results\\dot_model_cube";
+			//std::string file_name = "..\\results\\dot_model_gum";
+			std::string file_name = save_model_path;
 			l_template.save(file_name);
 		}
 
-		if (l_key == 108) // when button "l" is pressed
+		if (l_key == 108) // when button "l" is pressed: load
 		{
-			std::string file_name = "..\\results\\dot_model_cube";
+			//std::string file_name = "..\\results\\dot_model_gum";
+			std::string file_name = load_model_path;
 			l_template.load(file_name);
 			//l_template.clear_clu_list();
 			//l_template.cluster_heu(4);
 			l_template.load_model_helper();
+		}
+
+		if (l_key == 97) // when button "a" is pressed: append
+		{
+			std::string file_name = save_model_path;
+			l_template.append(file_name);
+			l_template.save(file_name);
+		}
+
+		if (l_key == 116) // when button "t" is pressed: toggle
+		{
+			l_learn_onl = !l_learn_onl;
 		}
 
 		if (l_key == 101) // when button "e" is pressed
@@ -496,7 +514,7 @@ int main(int argc, char * argv[])
 			}
 		}
 
-		if (l_key == 100) // when button "d" is pressed
+		if (l_key == 100) // when button "d" is pressed: delete
 		{
 			if (!l_cur_vec.empty())
 			{

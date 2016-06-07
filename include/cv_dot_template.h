@@ -1388,8 +1388,8 @@ namespace cv
 
 		std::stringstream lp_cnt_name, lp_img_name;
 
-		lp_img_name << "..\\pics\\eccv10\\contours\\cube_" << l_n << ".png";
-		lp_cnt_name << "..\\pics\\eccv10\\contours\\cube_" << l_n << "_cnt.png";
+		lp_img_name << "..\\pics\\eccv10\\contours\\gum_" << l_n << ".png";
+		lp_cnt_name << "..\\pics\\eccv10\\contours\\gum_" << l_n << "_cnt.png";
 
 		cv::cv_save_image(lp_img_name.str(), lp_img);
 		cv::cv_save_image(lp_cnt_name.str(), lp_cnt);
