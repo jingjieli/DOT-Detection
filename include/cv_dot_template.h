@@ -870,7 +870,7 @@ namespace cv
 					lp_candidate->m_col = l_c*S;
 					lp_candidate->m_row = l_r*S;
 					lp_list[lp_candidate->m_cla].push_back(lp_candidate);
-					std::cout << "Candidate " << lp_candidate->m_ind << " found and added." << std::endl;
+					//std::cout << "Candidate " << lp_candidate->m_ind << " found and added." << std::endl;
 				}
 				else
 				{
@@ -916,7 +916,7 @@ namespace cv
 					lp_candidate->m_row = l_r*S;
 
 					lp_list[lp_candidate->m_cla].push_back(lp_candidate); // add candidate to the class it belongs to
-					std::cout << "Candidate " << lp_candidate->m_ind << " found and added." << std::endl;
+					//std::cout << "Candidate " << lp_candidate->m_ind << " found and added." << std::endl;
 				}
 				else
 				{
@@ -1388,8 +1388,8 @@ namespace cv
 
 		std::stringstream lp_cnt_name, lp_img_name;
 
-		lp_img_name << "..\\pics\\eccv10\\contours\\template_" << l_n << ".png";
-		lp_cnt_name << "..\\pics\\eccv10\\contours\\template_" << l_n << "_cnt.png";
+		lp_img_name << "..\\pics\\eccv10\\contours\\cube_" << l_n << ".png";
+		lp_cnt_name << "..\\pics\\eccv10\\contours\\cube_" << l_n << "_cnt.png";
 
 		cv::cv_save_image(lp_img_name.str(), lp_img);
 		cv::cv_save_image(lp_cnt_name.str(), lp_cnt);

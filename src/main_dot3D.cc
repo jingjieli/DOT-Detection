@@ -467,13 +467,13 @@ int main(int argc, char * argv[])
 
 		if (l_key == 115) // when button "s" is pressed
 		{
-			std::string file_name = "..\\results\\dot_model";
+			std::string file_name = "..\\results\\dot_model_cube";
 			l_template.save(file_name);
 		}
 
 		if (l_key == 108) // when button "l" is pressed
 		{
-			std::string file_name = "..\\results\\dot_model";
+			std::string file_name = "..\\results\\dot_model_cube";
 			l_template.load(file_name);
 			//l_template.clear_clu_list();
 			//l_template.cluster_heu(4);
@@ -498,11 +498,14 @@ int main(int argc, char * argv[])
 
 		if (l_key == 100) // when button "d" is pressed
 		{
-			for (int l_i = 0; l_i < l_template.get_classes(); ++l_i)
+			if (!l_cur_vec.empty())
 			{
-				cvReleaseMat(&l_cur_vec[l_i]);
+				for (int l_i = 0; l_i < l_template.get_classes(); ++l_i)
+				{
+					cvReleaseMat(&l_cur_vec[l_i]);
+				}
+				l_cur_vec.clear();
 			}
-			l_cur_vec.clear();
 
 			l_template.clear_clu_list();
 			l_template.clear_bit_list();
@@ -512,11 +515,14 @@ int main(int argc, char * argv[])
 
 		if (l_key == 27) // when "ESC" is pressed
 		{
-			for (int l_i = 0; l_i < l_template.get_classes(); ++l_i)
+			if (!l_cur_vec.empty())
 			{
-				cvReleaseMat(&l_cur_vec[l_i]);
+				for (int l_i = 0; l_i < l_template.get_classes(); ++l_i)
+				{
+					cvReleaseMat(&l_cur_vec[l_i]);
+				}
+				l_cur_vec.clear();
 			}
-			l_cur_vec.clear();
 
 			cvReleaseImage(&lp_color);
 			cvReleaseImage(&lp_gray);
